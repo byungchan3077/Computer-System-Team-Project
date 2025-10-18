@@ -97,8 +97,8 @@ void init_type(const char *number, my_type *t) {
 void decode_fields(my_type *t) {
     printf("Decoded fields\n"); 
     
-    // [수정] 원시 메모리를 직접 읽는 대신, 구조체 멤버의 값을 기반으로 비트열을 출력합니다.
-    // 이렇게 하면 컴파일러의 비트 필드 배치 방식이나 시스템의 엔디안에 영향을 받지 않아 안정적입니다.
+    // [수정] 원시 메모리를 직접 읽는 대신, 구조체 멤버의 값을 기반으로 비트열을 출력
+
 
     // 1. sign 비트 출력
     printf("  - sign: ");
