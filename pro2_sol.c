@@ -15,8 +15,8 @@
 // 127 이다.
 
 typedef struct { 
-    char digits[100];
-    //문자열로 저장하는데, 최대 100자리까지 저장가능 
+    char digits[512];
+    //init type 에서 256+256 을 저장하려면 (255+255+1(소숫점)+1(마지막 공간)) = 512
     /*
     [TODO] Define this here.
     */
