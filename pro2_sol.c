@@ -8,7 +8,7 @@
 #define SIGN_FIELD_BITS 1
 #define EXPONENT_FIELD_BITS 8
 #define FRACTION_FIELD_BITS (sizeof(frac_part)*8)
-// sizeof 는 바이트 단위이므로 비트 단위로 변환하려면 8을 곱해야 합니다.
+// sizeof 는 바이트 단위 -> 8곱해서 비트 단위로
 #define MY_TYPE_BITS (FRACTION_FIELD_BITS+EXPONENT_FIELD_BITS+SIGN_FIELD_BITS)
 
 #define BIAS (int)(pow(2, EXPONENT_FIELD_BITS-1) - 1)
@@ -16,7 +16,7 @@
 
 typedef struct { 
     char digits[100];
-    //문자열로 소수부분을 저장하는데, 최대 100자리까지 저장가능 
+    //문자열로 저장하는데, 최대 100자리까지 저장가능 
     /*
     [TODO] Define this here.
     */
@@ -72,21 +72,22 @@ void init_type(const char *number, my_type *t) {
     char frac_part_str[256];
     
     split(number, &sign_char, int_part, frac_part_str);
-    
-    // 1. sign 필드 설정
+        //printf("int_part: %s\n", int_part);
+        //printf("frac_part: %s\n", frac_part);
+    // sign field 
     if (sign_char == '-') {
         t->sign = 1;
     } else {
         t->sign = 0;
     }
     
-    // 2. exponent 필드 설정 (올바른 방식)
-    // 실제 지수 E는 소수부 문자열의 길이에 음수를 붙인 값입니다.
+    // 2. exponent field
+    // E는 소수부 문자열의 길이에 음수를 붙인 값
     int E = -strlen(frac_part_str);
-    t->exp = E + BIAS; // 계산된 E에 BIAS를 더해 저장합니다.
+    t->exp = E + BIAS; // 계산된 E에 BIAS를 더해 저장 exp 는 unsigned char
     
-    // 3. fraction 필드 설정 (올바른 방식)
-    // 정수부와 소수부 문자열을 하나로 합쳐서 저장합니다.
+    // 3. fraction field
+    // 정수부와 소수부 문자열을 하나로 합쳐서 저장
     strcpy(t->frac.digits, int_part);
     strcat(t->frac.digits, frac_part_str);
 }
@@ -100,20 +101,20 @@ void decode_fields(my_type *t) {
 
     // 1. sign 비트 출력
     printf("  - sign: ");
-    // t->sign 멤버의 값을 그대로 출력합니다.
+    // t->sign  값을 그대로 출력
     putchar(t->sign ? '1' : '0');
     printf("\n");
 
     // 2. exponent 비트 출력
     printf("  - exponent: ");
     unsigned int exp_val = t->exp;
-    // t->exp 멤버의 값을 기반으로 8비트 이진수를 만듭니다.
+    
     for (int i = EXPONENT_FIELD_BITS - 1; i >= 0; i--) {
         putchar(((exp_val >> i) & 1) ? '1' : '0');
-    }
+    }//8비트로 된 정수를 2진수로 표현하기 위해 각 비트를 끝으로 옮기고 0001 과 AND 연산
     printf(" (%u) => E = %d - %d = %d\n", t->exp, t->exp, BIAS, (int)t->exp - BIAS);
 
-    // 3. [수정] fraction 필드(가수)를 아스키 코드의 이진수 형태로 출력합니다.
+    // 3. [수정] fraction 필드(가수)를 아스키 코드의 이진수 형태로 출력
     printf("  - fraction (ASCII in binary): ");
     char *frac_ptr = t->frac.digits;
     // 문자열의 끝(\0)을 만날 때까지 반복
@@ -141,13 +142,13 @@ void print_value(my_type *t) {
     char *mantissa = t->frac.digits;
     int mantissa_len = strlen(mantissa);
 
-    // 소수점 이하 자릿수는 -E와 같습니다.
+    //실제 소숫값은 -E만큼 소숫점 이동 == 10^E 만큼 이동 (E가 음수이므로)
     int frac_len = -E;
 
-    // Case 1: 1보다 작은 소수 (예: 0.0123)
+    // Case 1: 1보다 작은 소수 (예: 0.0123) 
     if (mantissa_len <= frac_len) {
         printf("0.");
-        // 소수점 아래에 필요한 0들을 먼저 출력합니다.
+        // 소숫점의 0먼저 출력
         for (int i = 0; i < frac_len - mantissa_len; i++) {
             putchar('0');
         }
