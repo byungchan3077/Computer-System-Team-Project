@@ -118,7 +118,7 @@ void decode_fields(my_type *t) {
     // 3. [수정] fraction 필드(가수)를 아스키 코드의 이진수 형태로 출력
     printf("  - fraction (ASCII in binary): ");
     char *frac_ptr = t->frac.digits;
-    // 문자열의 끝(\0)을 만날 때까지 반복
+    // 문자열의 끝(\0)=null을 만날 때까지 반복
     while (*frac_ptr) {
         unsigned char current_char = *frac_ptr;
         // 각 문자를 8비트 이진수로 변환하여 출력
