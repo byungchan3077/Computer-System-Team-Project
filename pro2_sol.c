@@ -6,8 +6,8 @@
 
 // [TODO] You need to decide the bit widths of the fields.
 #define SIGN_FIELD_BITS 1
-#define EXPONENT_FIELD_BITS 8
-// 8비트 -> 0~255 를 표현 가능 "char frac_part_str[256];" 로 정의되어 있기 떄문에 8비트로 소숫점 표현가능
+#define EXPONENT_FIELD_BITS 9 // 
+// 9비트는 0~511을 표현 가능하며, 지수 E는 -255부터 +255까지 표현가능
 #define FRACTION_FIELD_BITS (sizeof(frac_part) * 8)
 // sizeof 는 바이트 단위 -> 8곱해서 비트 단위로
 #define MY_TYPE_BITS (FRACTION_FIELD_BITS + EXPONENT_FIELD_BITS + SIGN_FIELD_BITS)
