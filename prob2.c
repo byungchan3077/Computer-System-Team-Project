@@ -7,14 +7,14 @@
 // [TODO] You need to decide the bit widths of the fields.
 #define SIGN_FIELD_BITS 1
 #define EXPONENT_FIELD_BITS 9 
-// 9비트는 0~511을 표현 가능하며, 지수 E는 -255부터 +255까지의 값을 안전하게 담을 수 있습니다.
+// 9비트는 0~511을 표현 가능하며, 지수 E는 -255부터 +255까지
 #define MAX_MANTISSA_DIGITS 512
 #define FRACTION_FIELD_BITS (MAX_MANTISSA_DIGITS * 8) 
 // sizeof는 바이트 단위 -> 8곱해서 비트 단위로
 #define MY_TYPE_BITS (FRACTION_FIELD_BITS + EXPONENT_FIELD_BITS + SIGN_FIELD_BITS)
 
 #define BIAS (int)(pow(2, EXPONENT_FIELD_BITS - 1) - 1)
-// 9비트 지수의 BIAS 값은 2^(9-1) - 1 = 255 입니다.
+// 9비트 지수의 BIAS 값은 2^(9-1) - 1 = 255 
 
 typedef struct
 {
