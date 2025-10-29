@@ -99,17 +99,17 @@ void print_value(const my_type *t) {
 
 
 static void strip_leading_zeros(char *s) {
-    // 기능: 숫자 문자열의 맨 앞에 불필요한 '0'을 제거합니다. (예: "00123" -> "123")
+    // 기능: 숫자 문자열의 맨 앞에 불필요한 '0'을 제거 (예: "00123" -> "123")
     size_t n = strlen(s);
     size_t k = 0;
-    // 문자열 길이가 1보다 크고, 현재 문자가 '0'인 동안 계속 건너뜁니다.
+    // 문자열 길이가 1보다 크고, 현재 문자가 '0'인 동안 계속 건너뜀
     while (k + 1 < n && s[k] == '0') ++k;
-    // 건너뛴 '0'이 있다면, 나머지 문자열을 앞으로 이동시킵니다.
+    // 건너뛴 '0'이 있다면, 나머지 문자열을 앞으로 이동
     if (k) memmove(s, s + k, n - k + 1);
 }
 
 static int bigcmp(const char *a, const char *b) {
-    // 기능: 두 가수 문자열의 절대값 크기를 비교합니다.
+    // 기능: 두 가수 문자열의 절대값 크기를 비교
     // 반환: a > b 이면 1, a == b 이면 0, a < b 이면 -1
     
     // 1. 길이 비교 (길이가 다르면 긴 쪽이 큼)
@@ -123,8 +123,7 @@ static int bigcmp(const char *a, const char *b) {
 }
 
 static void bigadd(const char *a, const char *b, char *out, size_t cap) {
-    // 기능: 두 긴 숫자 문자열 a와 b를 덧셈하여 결과를 out에 저장합니다.
-    // 주의: 자리 올림을 처리하는 10진수 기반의 고정밀도 덧셈입니다.
+    // 기능: 두 긴 숫자 문자열 a와 b를 덧셈하여 결과를 out에 저장
     
     size_t la = strlen(a), lb = strlen(b);
     size_t i = la, j = lb, k = 0;
@@ -161,7 +160,7 @@ static void bigadd(const char *a, const char *b, char *out, size_t cap) {
 
 static void bigsub_nonneg(const char *A, const char *B, char *out) {
     // 기능: A - B를 수행하여 결과를 out에 저장합니다. (A >= B 가정, 음수 결과 없음)
-    // 주의: 자리 빌림(borrow)을 처리하는 고정밀도 뺄셈입니다.
+    // 주의: 자리 빌림(borrow)을 처리하는 고정밀도 뺄셈
     
     size_t i = strlen(A), j = strlen(B);
     char tmp[1024];
@@ -202,7 +201,7 @@ static int align_to_common_exponent(const my_type *a, const my_type *b,
                                     char *outA, char *outB, int *E_common,
                                     size_t cap_digits)
 {
-    // 기능: 덧셈/뺄셈을 위해 두 피연산자 a, b의 가수(M)를 공통 지수 E_common에 맞춰 정렬합니다.
+    // 기능: 덧셈/뺄셈을 위해 두 피연산자 a, b의 가수(M)를 공통 지수 E_common에 맞춰 정렬
     // (지수 차이만큼 가수 문자열 뒤에 '0'을 추가)
     
     // 1. 실제 지수 E 계산 (E = exp - BIAS)
